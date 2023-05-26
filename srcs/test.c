@@ -1,20 +1,63 @@
-#include <stdio.h>
-#include <pthread.h>
+#include<libc.h>
+#include<stdbool.h>
 
-// 新しいスレッドで実行されるタスク
-void *doSomething(void* pArg) {
-    int *pVal = (int*) pArg;
-    printf("worker thread [%d]\n", *pVal);
-    *pVal = 200;
-    return NULL;
+
+int	ft_atoi(const char *str)
+{
+	long long	ln;
+	size_t		n;
+	int			sign;
+
+	sign = 1;
+	ln = 0;
+	n = 0;
+	while (str[n] == 32 || (9 <= str[n] && str[n] <= 13))
+		n++;
+	if (str[n] == '-')
+		sign *= -1;
+	if (str[n] == '+' || str[n] == '-')
+		n++;
+	while ('0' <= str[n] && str[n] <= '9')
+	{
+		if (ln != ((ln * 10) + (str[n] - '0') * sign) / 10 && sign > 0)
+			return ((int)LONG_MAX);
+		if (ln != ((ln * 10) + (str[n] - '0') * sign) / 10 && sign < 0)
+			return ((int)LONG_MIN);
+		ln = (ln * 10) + (str[n] - '0') * sign;
+		n++;
+	}
+	return ((int)ln);
 }
 
-int main(void) {
-    pthread_t handle;  // Thread handle.
-    int data = 100;
+bool check_arg(int argc, char **argv)
+{
+	size_t i;
+	size_t j;
+	i = 1;
+	j = 0;
+	if(!(argc == 5 || argc == 6))
+	{
+		printf("hi");
+		return (false);
+	}	
+	while(argv[i])
+	{
+		j = 0;
+		while(argv[i][j])
+		{
+			if(!('0' <= argv[i][j] && argv[i][j] <= '9'))
+				return (false);
+		j++;	
+		}
+		i++;
+	}
+	return (true);
 
-    pthread_create(&handle, NULL, doSomething, &data);
-    pthread_join(handle, NULL);
-
-    printf("main thread [%d]\n", data);
+}
+int main(int argc, char **argv)
+{
+	if(check_arg(argc,argv))
+		printf("your arg is correct");
+	else
+	return (1);
 }
