@@ -52,12 +52,13 @@ bool check_arg(int argc, char **argv)
 		i++;
 	}
 	return (true);
-
 }
+
+
 int main(int argc, char **argv)
 {
 	if(check_arg(argc,argv))
 		printf("your arg is correct");
 	else
-	return (1);
+		return (1);
 }
