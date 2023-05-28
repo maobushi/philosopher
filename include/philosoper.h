@@ -9,6 +9,6 @@ typedef struct{
 	size_t	time_to_eat;
 	size_t	time_to_sleep;
 	size_t	number_of_times_each_philosopher_must_eat;
-}input_env;
+}t_input_env;
 
 #endif

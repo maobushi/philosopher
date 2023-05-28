@@ -1,6 +1,6 @@
 #include<libc.h>
 #include<stdbool.h>
-
+#include"../include/philosoper.h"
 
 int	ft_atoi(const char *str)
 {
@@ -40,12 +40,13 @@ bool check_input_format(int argc, char **argv)
 	size_t i;
 	size_t j;
 	i = 1;
-	j = 0;
 	if(!(argc == 5 || argc == 6))
 	{
 		printf("hi");
 		return (false);
 	}
+
+	printf("hello,world!");	
 	while(argv[i])
 	{
 		j = 0;
@@ -56,13 +57,13 @@ bool check_input_format(int argc, char **argv)
 		j++;	
 		}
 		i++;
-	
-	if(!(check_argv(argv)))
-		return (false);
-	return (true);
+	}	
+	return (check_argv(argv));
 }
 
-void write_input_env(input_env_t *env, char **argv)
+
+
+void write_input_env(t_input_env *env, int argc,char **argv)
 {
 	env->number_of_philosophers = ft_atoi(argv[1]);
 	env->time_to_die = ft_atoi(argv[2]);
@@ -74,15 +75,17 @@ void write_input_env(input_env_t *env, char **argv)
 
 int main(int argc, char **argv)
 {
-	input_env_t	*env; 
+	t_input_env	*env; 
+	env = NULL;
 	if(check_input_format(argc,argv))
 	{
 		printf("your arg is correct");
-		write_input_env(env,argv);
-		printf("hello:%d\n",env->number_of_philosophers);
+		write_input_env(env,argc,argv);
+		printf("hello:%zu\n",env->number_of_philosophers);
 	}	
 	else
 	{
 		printf("your input is incorrect");
 		return (1);
-	}}
+	}
+}
