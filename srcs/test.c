@@ -29,7 +29,13 @@ int	ft_atoi(const char *str)
 	return ((int)ln);
 }
 
-bool check_arg(int argc, char **argv)
+bool check_argv(char **argv)
+{
+	if(ft_atoi(argv[1]) <= 0)
+		return false;
+	return true;
+}
+bool check_input_format(int argc, char **argv)
 {
 	size_t i;
 	size_t j;
@@ -39,7 +45,7 @@ bool check_arg(int argc, char **argv)
 	{
 		printf("hi");
 		return (false);
-	}	
+	}
 	while(argv[i])
 	{
 		j = 0;
@@ -50,15 +56,33 @@ bool check_arg(int argc, char **argv)
 		j++;	
 		}
 		i++;
-	}
+	
+	if(!(check_argv(argv)))
+		return (false);
 	return (true);
 }
 
+void write_input_env(input_env_t *env, char **argv)
+{
+	env->number_of_philosophers = ft_atoi(argv[1]);
+	env->time_to_die = ft_atoi(argv[2]);
+	env->time_to_eat = ft_atoi(argv[3]);
+	env->time_to_sleep = ft_atoi(argv[4]);
+	if(argc == 6)
+		env->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
+}
 
 int main(int argc, char **argv)
 {
-	if(check_arg(argc,argv))
+	input_env_t	*env; 
+	if(check_input_format(argc,argv))
+	{
 		printf("your arg is correct");
+		write_input_env(env,argv);
+		printf("hello:%d\n",env->number_of_philosophers);
+	}	
 	else
+	{
+		printf("your input is incorrect");
 		return (1);
-}
+	}}
