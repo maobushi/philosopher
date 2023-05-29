@@ -2,7 +2,7 @@
 # define PHILOSOPHER_H
 
 #include<libc.h>
-
+#include<stdbool.h>
 typedef struct{
 	size_t	number_of_philosophers;
 	size_t	time_to_die;
@@ -11,4 +11,10 @@ typedef struct{
 	size_t	number_of_times_each_philosopher_must_eat;
 }t_input_env;
 
+int ft_atoi(const char *str);
+bool check_argv(char **argv);
+bool check_input_format(int argc, char **argv);
+
+
+void write_input_env(t_input_env *env, int argc, char **argv);
 #endif

@@ -1,11 +1,12 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror 
-C_NAME = test
+C_NAME = philosopher
 SRCDIR = srcs
 OBJDIR = obj
 INCDIR = include
 
-C_SRC = srcs/test.c
+C_SRC = srcs/main.c\
+		check_input.c
 
 C_OBJ = $(addprefix $(OBJDIR)/,$(notdir $(C_SRC:%.c=%.o)))
 
