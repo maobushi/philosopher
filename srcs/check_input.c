@@ -60,10 +60,12 @@ bool check_input_format(int argc, char **argv)
 }
 
 void write_input_env(t_input_env *env, int argc, char **argv) {
-	env->number_of_philosophers = ft_atoi(argv[1]);
+	pthread_mutex_t forks[200];
+    env->number_of_philosophers = ft_atoi(argv[1]);
     env->time_to_die = ft_atoi(argv[2]);
     env->time_to_eat = ft_atoi(argv[3]);
     env->time_to_sleep = ft_atoi(argv[4]);
     if (argc == 6)
         env->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
+    env->forks = &forks[200];
 }
