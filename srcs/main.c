@@ -2,7 +2,7 @@
 
 int main(int argc, char **argv)
 {
-    t_input_env env;
+    t_env env;
     //you should use initialize function here
 
     if (check_input_format(argc, argv))
@@ -19,6 +19,8 @@ int main(int argc, char **argv)
         //error handling
         //error handling
         init_philosophers(&env);
+        end_philosophers(&env);
+
     }
 		else
     {

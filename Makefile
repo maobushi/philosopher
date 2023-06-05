@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
-C_NAME = philosopher
+C_NAME = philo
 SRCDIR = srcs
 OBJDIR = obj
 INCDIR = include
