@@ -13,6 +13,8 @@
 struct s_env;
 
 typedef struct{
+	size_t			index;
+	size_t			eat_count;
 	long	initial_time;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
@@ -32,7 +34,7 @@ typedef struct s_env{
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	bool			is_finished;
+	size_t			is_finished;
 	int			number_of_must_eat;
 	long			initial_time;
 
