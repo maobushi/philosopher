@@ -7,12 +7,15 @@
 #include <sys/time.h>
 #define NUM_OF_THREAD 3
 #define ERROR_ARG "Invalid Argument!"
+#define MAX_PHILO_NUM 200
+
 
 struct s_env;
 
 typedef struct{
-	size_t	index;
 	long	initial_time;
+	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	*left_fork;
 	pthread_mutex_t lock;
 	struct s_env	*env;
 	
@@ -20,15 +23,16 @@ typedef struct{
 
 
 typedef struct s_env{
-	t_philo			*philo_id;
-	pthread_mutex_t	*fork_id;
-	pthread_t		*thread_id;
+	t_philo			philo_id[MAX_PHILO_NUM];
+	pthread_mutex_t	fork_id[MAX_PHILO_NUM];
+	pthread_t		thread_id[MAX_PHILO_NUM];
 	pthread_mutex_t	write;
 	pthread_mutex_t lock;
 	size_t			number_of_philosophers;
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
+	bool			is_finished;
 	int			number_of_must_eat;
 	long			initial_time;
 

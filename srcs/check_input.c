@@ -64,6 +64,7 @@ void alloc_input_env(t_env *env, int argc, char **argv) {
 	env->time_to_die = ft_atoi(argv[2]);
 	env->time_to_eat = ft_atoi(argv[3]);
 	env->time_to_sleep = ft_atoi(argv[4]);
+	env->is_finished = false;
 	if (argc == 6)
 		env->number_of_must_eat = ft_atoi(argv[5]);
 	else
