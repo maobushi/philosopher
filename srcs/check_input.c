@@ -1,5 +1,14 @@
 #include "../include/philosopher.h"
 
+long long	ft_get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * (u_int64_t)1000) + (tv.tv_usec / 1000));//wtf
+}
+
+
 int ft_atoi(const char *str)
 {
 	long long ln;
@@ -64,9 +73,10 @@ void alloc_input_env(t_env *env, int argc, char **argv) {
 	env->time_to_die = ft_atoi(argv[2]);
 	env->time_to_eat = ft_atoi(argv[3]);
 	env->time_to_sleep = ft_atoi(argv[4]);
-	env->is_finished = false;
+	env->is_finished = 0;
 	if (argc == 6)
 		env->number_of_must_eat = ft_atoi(argv[5]);
 	else
 		env->number_of_must_eat = -1;
+	env->initial_time = ft_get_time();
 }
