@@ -34,6 +34,8 @@ void p_eat(t_philo *input)
     ft_usleep(input->env->time_to_eat);
     input->eat_count++;
     input->last_meal_time = ft_get_time();
+    if(input->env->number_of_must_eat != -1 && input->eat_count >= input->env->number_of_must_eat)
+        input->env->num_of_eat++;    
     pthread_mutex_unlock(input->right_fork);
     pthread_mutex_unlock(input->left_fork);
 
@@ -71,6 +73,7 @@ void * routine(void *arg){
     input->last_meal_time = ft_get_time();
     while(1)
 	{
+        printf("must_eat%d:\n",input->env->number_of_must_eat);
         if(monitor(input) == 1)
         {
             pthread_mutex_unlock(&input->env->lock);
@@ -82,10 +85,11 @@ void * routine(void *arg){
             pthread_mutex_unlock(&input->env->lock);
             return((void *)0);
         }
-        if(input->env->number_of_must_eat != -1 && input->eat_count >= input->env->number_of_must_eat)
+        if(input->env->number_of_must_eat != -1 && input->env->num_of_eat >= input->env->number_of_must_eat)
         {
             pthread_mutex_lock(&input->env->lock);
             printf("%lld %zu died\n",ft_get_time()- input->env->initial_time,input->index);
+            printf("%d,%d\n",input->env->num_of_eat,input->env->number_of_must_eat);
             input->env->is_finished++;
             pthread_mutex_unlock(&input->env->lock);
             return((void*)0);
@@ -101,7 +105,7 @@ void * routine(void *arg){
             pthread_mutex_unlock(&input->env->lock);
             return((void *)0);
         }
-        if(input->env->time_to_eat + input->env->time_to_sleep >= input->env->time_to_die)
+        if(input->env->time_to_eat + input->env->time_to_sleep > input->env->time_to_die)
         {
             pthread_mutex_lock(&input->env->lock);
             printf("%lld %zu died\n",ft_get_time()- input->env->initial_time,input->index);
@@ -116,7 +120,8 @@ void * routine(void *arg){
 
 int init_thread(t_env *env)
 {
-	size_t  i;
+	int  i;
+    //pthread_t monitor_id;
 	i=0;
 	if(env->number_of_philosophers == 1)
         one_case(&env->philo_id[0]);
@@ -125,6 +130,7 @@ int init_thread(t_env *env)
 	while(i < env->number_of_philosophers)
 	{
     	pthread_create(&env->thread_id[i],NULL,routine,&env->philo_id[i]);
+        //pthread_create(&monitor_id,NULL,monitor,env);
 		i++;
 	}
 	i=0;
@@ -139,9 +145,10 @@ int init_thread(t_env *env)
 
 int init_alloc(t_env *env)
 {
-	size_t i;
+	int i;
 	i = 0;
     env->initial_time = 0;
+    printf("must_eat%d:\n",env->number_of_must_eat);
 	while(i < env->number_of_philosophers)
 	{
 		if(pthread_mutex_init(&env->fork_id[i],NULL) != 0 || pthread_mutex_init(&env->lock,NULL) != 0)

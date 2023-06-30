@@ -28,12 +28,13 @@ typedef struct s_env{
 	pthread_t		thread_id[MAX_PHILO_NUM];
 	pthread_mutex_t	write;
 	pthread_mutex_t lock;
-	size_t			number_of_philosophers;
+	int			number_of_philosophers;
 	long long			time_to_die;
 	long long			time_to_eat;
 	long long			time_to_sleep;
 	size_t			is_finished;
 	int			number_of_must_eat;
+	int				num_of_eat;
 	long long			initial_time;
 
 }t_env;

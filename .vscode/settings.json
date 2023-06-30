@@ -1,8 +1,0 @@
-{
-	"files.associations": {
-		"_types.h": "c",
-		"_pthread_types.h": "c",
-		"locale": "c",
-		"philosopher.h": "c"
-	}
-}
