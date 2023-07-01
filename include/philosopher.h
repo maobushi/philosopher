@@ -15,6 +15,7 @@ typedef struct{
 	size_t			index;
 	int				eat_status;
 	int			eat_count;
+	long long			ideal_death_time;
 	long long			start_time_meal;
 	long long			end_time_meal;
 	pthread_t     monitor_id;
@@ -40,7 +41,7 @@ typedef struct s_env{
 	int			number_of_must_eat; //
 	int				num_of_eat; //everyone has 1 increment 
 	int					is_everyone_dead;
-	long long			initial_time;
+	long long			start_thread_time;
 
 }t_env;
 
@@ -53,7 +54,7 @@ int ft_atoi(const char *str);
 bool check_argv(char **argv);
 bool check_input_format(int argc, char **argv);
 void end_philosophers(t_env *env);
-long long ft_get_time(void);
-
+long long ft_get_time(long long input);
+int	ft_usleep(useconds_t time);
 void alloc_input_env(t_env *env, int argc, char **argv);
 #endif

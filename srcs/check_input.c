@@ -1,11 +1,22 @@
 #include "../include/philosopher.h"
 
-long long	ft_get_time(void)
+int	ft_usleep(useconds_t time)
+{
+	u_int64_t	start;
+
+	start = ft_get_time(0);
+	while ((ft_get_time(0) - start) < time)
+		usleep(time / 10);
+	return (0);
+}
+
+long long	ft_get_time(long long input)
 {
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * (u_int64_t)1000) + (tv.tv_usec / 1000));//wtf
+
+		return (((tv.tv_sec * (u_int64_t)1000) + (tv.tv_usec / 1000))-input);
 }
 
 
@@ -78,5 +89,5 @@ void alloc_input_env(t_env *env, int argc, char **argv) {
 		env->number_of_must_eat = ft_atoi(argv[5]);
 	else
 		env->number_of_must_eat = -1;
-	env->initial_time = ft_get_time();
+	env->start_thread_time = ft_get_time(0);
 }
