@@ -13,11 +13,15 @@ struct s_env;
 
 typedef struct{
 	size_t			index;
+	int				eat_status;
 	int			eat_count;
-	long long			last_meal_time;
+	long long			start_time_meal;
+	long long			end_time_meal;
+	pthread_t     monitor_id;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
-	struct s_env	*env;
+	pthread_mutex_t plock;
+	struct s_env	*env; // is it possible to remove "struct"?
 	
 }t_philo;
 
@@ -32,9 +36,10 @@ typedef struct s_env{
 	long long			time_to_die;
 	long long			time_to_eat;
 	long long			time_to_sleep;
-	size_t			is_finished;
-	int			number_of_must_eat;
-	int				num_of_eat;
+	int			is_finished;
+	int			number_of_must_eat; //
+	int				num_of_eat; //everyone has 1 increment 
+	int					is_everyone_dead;
 	long long			initial_time;
 
 }t_env;
