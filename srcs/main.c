@@ -4,16 +4,19 @@ void get_fork(t_philo *input)
 {
     pthread_mutex_lock(input->right_fork);
     pthread_mutex_lock(&input->env->lock);
-    printf("%lld %zu has taken a fork\n",ft_get_time(input->env->start_thread_time),input->index);
+    if(input->env->is_everyone_dead == 0)
+		printf("%lld %zu has taken a fork\n",ft_get_time(input->env->start_thread_time),input->index);
     pthread_mutex_unlock(&input->env->lock);
 
     pthread_mutex_lock(input->left_fork);
     pthread_mutex_lock(&input->env->lock);
-    printf("%lld %zu has taken a fork\n",ft_get_time(input->env->start_thread_time),input->index);
+    if(input->env->is_everyone_dead == 0)
+		printf("%lld %zu has taken a fork\n",ft_get_time(input->env->start_thread_time),input->index);
     pthread_mutex_unlock(&input->env->lock);
 
     pthread_mutex_lock(&input->env->lock);
-    printf("%lld %zu is eating\n",ft_get_time(input->env->start_thread_time),input->index);
+    if(input->env->is_everyone_dead == 0)
+		printf("%lld %zu is eating\n",ft_get_time(input->env->start_thread_time),input->index);
     pthread_mutex_unlock(&input->env->lock);
 }
 
@@ -21,7 +24,6 @@ void drop_fork(t_philo *input)
 {
     pthread_mutex_unlock(input->right_fork);
     pthread_mutex_unlock(input->left_fork);
-
 }
 
 
@@ -31,17 +33,19 @@ void philo_eat(t_philo * input)
     pthread_mutex_lock(&input->plock);
     input->eat_status = 1;
     input->eat_count++;
-    ft_usleep(input->env->time_to_eat);
     input->ideal_death_time = ft_get_time(0) + input->env->time_to_die;
-    //printf("ideal time:%lld\n",ft_get_time(input->ideal_death_time));
+    ft_usleep(input->env->time_to_eat);
+	//printf("ideal time:%lld\n",ft_get_time(input->ideal_death_time));
     input->eat_status = 0;
     pthread_mutex_unlock(&input->plock);
     drop_fork(input);
 }
+
 void philo_sleep(t_philo * input)
 {
     pthread_mutex_lock(&input->env->lock);
-    printf("%lld %zu is sleeping\n",ft_get_time(input->env->start_thread_time),input->index);
+    if(input->env->is_everyone_dead == 0)
+		printf("%lld %zu is sleeping\n",ft_get_time(input->env->start_thread_time),input->index);
     pthread_mutex_unlock(&input->env->lock);
     ft_usleep(input->env->time_to_sleep);
     
@@ -49,7 +53,8 @@ void philo_sleep(t_philo * input)
 void philo_think(t_philo * input)
 {
     pthread_mutex_lock(&input->env->lock);
-    printf("%lld %zu is thinking\n",ft_get_time(input->env->start_thread_time),input->index);
+	if(input->env->is_everyone_dead == 0)
+	    printf("%lld %zu is thinking\n",ft_get_time(input->env->start_thread_time),input->index);
     pthread_mutex_unlock(&input->env->lock);
 }
 
@@ -59,16 +64,18 @@ void *waiter(void * arg)
     input = (t_philo *)arg;
     while(input->env->is_everyone_dead == 0)
     {
-        //printf("ninput:%lld\n%lld\n%lld\n",(ft_get_time(input->ideal_death_time) *-1),input->env->time_to_die,(ft_get_time(input->ideal_death_time) *-1) - input->env->time_to_die);
-
-        if((ft_get_time(input->ideal_death_time) * -1) < 0 && input->eat_status == 0)// 時間 over flow
+        pthread_mutex_lock(&input->plock);
+		if((ft_get_time(input->ideal_death_time)) > 0 && input->eat_status == 0)// 時間 over flow
         {
 			pthread_mutex_lock(&input->env->lock);
-            printf("input:%lld\n%lld\n%lld\n",(ft_get_time(input->ideal_death_time) *-1),input->env->time_to_die,(ft_get_time(input->ideal_death_time) *-1) - input->env->time_to_die);
-            input->env->is_everyone_dead++;
+			if(input->env->is_everyone_dead == 0)
+				printf("%lld %zu died\n",ft_get_time(input->env->start_thread_time),input->index);
+			input->env->is_everyone_dead++;
 			pthread_mutex_unlock(&input->env->lock);
+			pthread_mutex_unlock(&input->plock);
             return((void *)0);
         }
+		pthread_mutex_unlock(&input->plock);
     }
     return((void *)0);
 }
@@ -80,7 +87,7 @@ void *routine(void *arg)
     t_philo * input;
     input = (t_philo *) arg;
     
-    if(input->index %2 == 1)
+    if(input->index % 2 == 1)
         ft_usleep(input->env->time_to_eat);
     pthread_t   waiter_id;
     
@@ -97,15 +104,18 @@ void *routine(void *arg)
         
     }
     if(pthread_join(waiter_id,NULL))
+	{
+		printf("input:%lld\n%lld\n%lld\n",(ft_get_time(input->ideal_death_time) *-1),input->env->time_to_die,(ft_get_time(input->ideal_death_time) *-1) - input->env->time_to_die);
 		return((void *)1);
-    return((void *)0);
+	}
+	return((void *)0);
 }
 
 void *monitor(void *arg)
 {
     t_philo * input;
     input = (t_philo *)arg;
-    while(input->env->is_everyone_dead != 0)
+    while(input->env->is_everyone_dead == 0)
     {
         
         pthread_mutex_lock(&input->env->lock);
