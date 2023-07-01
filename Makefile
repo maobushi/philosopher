@@ -1,5 +1,6 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror 
+LIB    = -pthread -fsanitize=thread
 C_NAME = philo
 SRCDIR = srcs
 OBJDIR = obj
