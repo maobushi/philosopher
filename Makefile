@@ -8,7 +8,9 @@ INCDIR = include
 
 C_SRC = srcs/main.c \
 	srcs/check_input.c \
-	srcs/utils.c
+	srcs/utils.c \
+	srcs/philo_actions.c \
+	srcs/thread.c
 
 C_OBJ = $(addprefix $(OBJDIR)/,$(notdir $(C_SRC:%.c=%.o)))
 

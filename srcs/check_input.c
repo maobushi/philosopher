@@ -6,7 +6,7 @@
 /*   By: mobushi <mobushi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 18:49:59 by mobushi           #+#    #+#             */
-/*   Updated: 2023/07/02 19:05:19 by mobushi          ###   ########.fr       */
+/*   Updated: 2023/07/02 21:32:03 by mobushi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ bool	check_input_format(int argc, char **argv)
 
 void	alloc_input_env(t_env *env, int argc, char **argv)
 {
-	env->number_of_philosophers = ft_atoi(argv[1]);
+	env->num_of_ph = ft_atoi(argv[1]);
 	env->time_to_die = ft_atoi(argv[2]);
 	env->time_to_eat = ft_atoi(argv[3]);
 	env->time_to_sleep = ft_atoi(argv[4]);

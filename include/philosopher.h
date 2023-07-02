@@ -6,7 +6,7 @@
 /*   By: mobushi <mobushi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 18:50:19 by mobushi           #+#    #+#             */
-/*   Updated: 2023/07/02 19:30:05 by mobushi          ###   ########.fr       */
+/*   Updated: 2023/07/02 21:38:29 by mobushi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ typedef struct s_env{
 
 void		init_philosophers(t_env *env);
 void		end_philosophers(t_env *env);
+void		philo_eat(t_philo *input);
+void		philo_sleep(t_philo *input);
+void		philo_think(t_philo *input);
+void		one_case(t_philo *input);
 int			ft_atoi(const char *str);
 bool		check_argv(char **argv, int argc);
 bool		check_input_format(int argc, char **argv);
@@ -67,5 +71,6 @@ long long	ft_get_time(long long input);
 long long	ft_get_time_a(void);
 int			ft_usleep(long long time);
 void		alloc_input_env(t_env *env, int argc, char **argv);
-
+int			init_thread(t_env *env);
+void		init_thread_alloc(t_env *env, int i);
 #endif

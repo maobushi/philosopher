@@ -6,7 +6,7 @@
 /*   By: mobushi <mobushi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 18:50:09 by mobushi           #+#    #+#             */
-/*   Updated: 2023/07/02 20:13:49 by mobushi          ###   ########.fr       */
+/*   Updated: 2023/07/02 22:00:58 by mobushi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,34 @@ void	one_case(t_philo *input)
 	pthread_mutex_unlock(input->left_fork);
 }
 
-void	init_thread_alloc(t_philo *env, int i)
+void	init_thread_alloc(t_env *env, int i)
 {
-	pthread_mutex_init(&env->env->philo_id[i].plock, NULL);
-	env->env->philo_id[i].index = i;
-	env->env->philo_id[i].eat_count = 0;
-	env->env->philo_id[i].env = env;
-	env->env->philo_id[i].eat_status = 0;
-	env->env->philo_id[i].end_time_meal = env->env->time_to_eat;
-	env->env->philo_id[i].is_finished_flag = 1;
+	pthread_mutex_init(&env->philo_id[i].plock, NULL);
+	env->philo_id[i].index = i;
+	env->philo_id[i].eat_count = 0;
+	env->philo_id[i].env = env;
+	env->philo_id[i].eat_status = 0;
+	env->philo_id[i].end_time_meal = env->time_to_eat;
+	env->philo_id[i].is_finished_flag = 1;
 }
 
 int	init_alloc(t_env *env)
 {
 	int	i;
 
-	i = -1;
-	while (++i < env->num_of_ph)
+	i = 0;
+	env->start_thread_time = ft_get_time(0) / 1000;
+	env->is_everyone_dead = 0;
+	env->is_finished = 0;
+	while (i < env->num_of_ph)
 	{
 		if (pthread_mutex_init(&env->fork_id[i], NULL) != 0
 			|| pthread_mutex_init(&env->lock, NULL) != 0)
 			return (1);
+		i++;
 	}
-	i = -1;
-	while (++i < env->num_of_ph)
+	i = 0;
+	while (i < env->num_of_ph)
 	{
 		if (i == 0)
 		{
@@ -60,7 +64,8 @@ int	init_alloc(t_env *env)
 			env->philo_id[i].left_fork = &env->fork_id[i];
 			env->philo_id[i].right_fork = &env->fork_id[i - 1];
 		}
-		init_thread_alloc(env, i);
+			 init_thread_alloc(env, i);
+		i++;
 	}
 	return (0);
 }
@@ -72,9 +77,6 @@ int	main(int argc, char **argv)
 	if (check_input_format(argc, argv))
 	{
 		alloc_input_env(&env, argc, argv);
-		env.start_thread_time = ft_get_time(0) / 1000;
-		env.is_everyone_dead = 0;
-		env.is_finished = 0;
 		if (init_alloc(&env) != 0)
 			return (1);
 		if (init_thread(&env) != 0)
