@@ -53,7 +53,7 @@ struct timeval current_time;
 void init_philosophers(t_env * env);
 void end_philosophers(t_env *env);
 int ft_atoi(const char *str);
-bool check_argv(char **argv);
+bool check_argv(char **argv,int argc);
 bool check_input_format(int argc, char **argv);
 void end_philosophers(t_env *env);
 long long ft_get_time(long long input);

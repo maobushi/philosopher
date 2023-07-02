@@ -30,3 +30,6 @@ fclean: clean
 	$(RM) $(C_NAME)
 
 re: fclean all
+
+debug: LIB += -fsanitize=thread
+debug: re

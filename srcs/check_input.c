@@ -54,10 +54,15 @@ int ft_atoi(const char *str)
 	return ((int)ln);
 }
 
-bool check_argv(char **argv)
+bool check_argv(char **argv,int argc)
 {
-	if (ft_atoi(argv[1]) <= 0 || ft_atoi(argv[2]) < 0 || ft_atoi(argv[3]) < 0 || ft_atoi(argv[4]) <= 0)
+	if (ft_atoi(argv[1]) <= 0 || ft_atoi(argv[2]) < 0 || ft_atoi(argv[3]) < 0 || ft_atoi(argv[4]) < 0)
 		return false;
+	else if(argc == 6)
+	{
+		if(ft_atoi(argv[5]) <= 0)
+		return false;
+	}
 	return true;
 }
 
@@ -83,10 +88,11 @@ bool check_input_format(int argc, char **argv)
 		}
 		i++;
 	}
-	return (check_argv(argv));
+	return (check_argv(argv,argc));
 }
 
-void alloc_input_env(t_env *env, int argc, char **argv) {
+void alloc_input_env(t_env *env, int argc, char **argv)
+{
 	env->number_of_philosophers = ft_atoi(argv[1]);
 	env->time_to_die = ft_atoi(argv[2]);
 	env->time_to_eat = ft_atoi(argv[3]);

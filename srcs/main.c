@@ -5,7 +5,7 @@ void get_fork(t_philo *input)
     pthread_mutex_lock(input->right_fork);
     pthread_mutex_lock(&input->env->lock);
     if(input->env->is_everyone_dead == 0&& input->is_finished_flag == 1)
-		printf("%lld %zu has taken a fork\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index);
+		printf("%lld %zu has taken a fork\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index+ 1);
     pthread_mutex_unlock(&input->env->lock);
 
     pthread_mutex_lock(input->left_fork);
@@ -13,7 +13,7 @@ void get_fork(t_philo *input)
 
     if(input->env->is_everyone_dead == 0&& input->is_finished_flag == 1)
 	{
-        printf("%lld %zu has taken a fork\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index);
+        printf("%lld %zu has taken a fork\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index + 1);
     }
     pthread_mutex_unlock(&input->env->lock);
 }
@@ -31,7 +31,7 @@ void philo_sleep(t_philo * input)
 {
     pthread_mutex_lock(&input->env->lock);
     if(input->env->is_everyone_dead == 0&& input->is_finished_flag == 1)
-		printf("%lld %zu is sleeping\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index);
+		printf("%lld %zu is sleeping\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index+ 1);
     if(input->eat_count >= input->env->number_of_must_eat && input->env->number_of_must_eat != -1)
     {
         //printf("%lld %zu has acomplished eat_count:%d\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index,input->eat_count);
@@ -40,16 +40,15 @@ void philo_sleep(t_philo * input)
     }
     pthread_mutex_unlock(&input->env->lock);
     ft_usleep(input->env->time_to_sleep * 1000);
-    
 }
 void philo_think(t_philo * input)
 {
     pthread_mutex_lock(&input->env->lock);
 	if(input->env->is_everyone_dead == 0&& input->is_finished_flag == 1)
-	    printf("%lld %zu is thinking\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index);
+	    printf("%lld %zu is thinking\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index+ 1);
     pthread_mutex_unlock(&input->env->lock);
-
 }
+
 void philo_eat(t_philo * input)
 {
     get_fork(input);
@@ -60,7 +59,7 @@ void philo_eat(t_philo * input)
     input->eat_status = 0;
     
     if(input->env->is_everyone_dead == 0 && input->is_finished_flag == 1)
-        printf("%lld %zu is eating\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index);
+        printf("%lld %zu is eating\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index+ 1);
     pthread_mutex_unlock(&input->plock);
     //printf("now time: %zu first%lld\n",input->index, ft_get_time(0));
     //printf("marai said:%lld\n",input->env->time_to_eat);
@@ -72,6 +71,7 @@ void philo_eat(t_philo * input)
 	//printf("ideal time:%lld\n",ft_get_time(input->ideal_death_time));
     drop_fork(input);
 }
+
 void *waiter(void * arg)
 {
     t_philo *input;
@@ -83,7 +83,7 @@ void *waiter(void * arg)
         {
 			pthread_mutex_lock(&input->env->lock);
 			if(input->env->is_everyone_dead == 0)
-				printf("%lld %zu died\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index);
+				printf("%lld %zu died\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index+ 1);
 			input->env->is_everyone_dead++;
 			pthread_mutex_unlock(&input->env->lock);
 			pthread_mutex_unlock(&input->plock);
@@ -107,7 +107,7 @@ void *routine(void *arg)
      //   ft_usleep(input->env->time_to_eat);
     
     
-    input->ideal_death_time = ft_get_time(0) / 1000+ input->env->time_to_die;
+    input->ideal_death_time = ft_get_time(0) / 1000 + input->env->time_to_die;
     pthread_create(&input->waiter_id,NULL,waiter,input);
     
     while(input->env->is_everyone_dead == 0)
@@ -125,7 +125,7 @@ void *routine(void *arg)
     }
     if(pthread_join(input->waiter_id,NULL))
 	{
-		printf("input:%lld\n%lld\n%lld\n",(ft_get_time(input->ideal_death_time * 1000) / 1000 * -1),input->env->time_to_die,(ft_get_time(input->ideal_death_time * 1000) /1000 *-1) - input->env->time_to_die);
+//		printf("input:%lld\n%lld\n%lld\n",(ft_get_time(input->ideal_death_time * 1000) / 1000 * -1),input->env->time_to_die,(ft_get_time(input->ideal_death_time * 1000) /1000 *-1) - input->env->time_to_die);
 		return((void *)1);
 	}
 	return((void *)0);
@@ -147,22 +147,19 @@ void *monitor(void *arg)
         }
         pthread_mutex_unlock(&input->env->lock);
     }
-    printf("is_finished:%d,num_of_philo:%d\n",input->env->is_finished,input->env->number_of_philosophers);
+  //  printf("is_finished:%d,num_of_philo:%d\n",input->env->is_finished,input->env->number_of_philosophers);
     return((void *)0);
 }
 
 void one_case(t_philo *input)
 {
     pthread_mutex_lock(input->left_fork);
-    printf("%lld %zu has taken a fork\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index);
-    if(input->env->time_to_die >= input->env->time_to_eat)
-        ft_usleep(input->env->time_to_eat * 1000);
-    else
-        ft_usleep(input->env->time_to_die * 1000);
-    printf("%lld %zu died\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index);
+    printf("%lld %zu has taken a fork\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index+ 1);
+    ft_usleep(input->env->time_to_die * 1000);
+    printf("%lld %zu died\n",ft_get_time(input->env->start_thread_time * 1000) / 1000,input->index+ 1);
     pthread_mutex_unlock(input->left_fork);
-    
 }
+
 int init_thread(t_env *env)
 {
 	int  i;
