@@ -56,7 +56,7 @@ int ft_atoi(const char *str)
 
 bool check_argv(char **argv)
 {
-	if (ft_atoi(argv[1]) <= 0 || ft_atoi(argv[2]) < 0 || ft_atoi(argv[3]) < 0 || ft_atoi(argv[4]) < 0)
+	if (ft_atoi(argv[1]) <= 0 || ft_atoi(argv[2]) < 0 || ft_atoi(argv[3]) < 0 || ft_atoi(argv[4]) <= 0)
 		return false;
 	return true;
 }
