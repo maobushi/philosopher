@@ -6,7 +6,7 @@
 /*   By: mobushi <mobushi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 19:46:43 by mobushi           #+#    #+#             */
-/*   Updated: 2023/07/02 22:46:21 by mobushi          ###   ########.fr       */
+/*   Updated: 2023/07/02 23:29:50 by mobushi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	init_thread(t_env *env)
 	int			i;
 	pthread_t	monitor_id;
 
-	i = 0;
+	i = -1;
 	if (env->num_of_ph == 1)
 	{
 		one_case(&env->philo_id[0]);
@@ -88,11 +88,8 @@ int	init_thread(t_env *env)
 	if (env->number_of_must_eat > 0)
 		pthread_create(&monitor_id, NULL, monitor, env);
 	env->start_thread_time = ft_get_time(0) / 1000;
-	while (i < env->num_of_ph) {
+	while (++i < env->num_of_ph)
 		pthread_create(&env->thread_id[i], NULL, routine, &env->philo_id[i]);
-		i++;
-	}
-
 	i = -1;
 	if (0 < env->number_of_must_eat)
 		pthread_join(monitor_id, NULL);
