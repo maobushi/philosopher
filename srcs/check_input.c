@@ -1,37 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_input.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mobushi <mobushi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/02 18:49:59 by mobushi           #+#    #+#             */
+/*   Updated: 2023/07/02 19:05:19 by mobushi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philosopher.h"
 
-int	ft_usleep(long long time)
+int	ft_atoi(const char *str)
 {
-	long long start;
-
-	start = ft_get_time(0);
-	while ((ft_get_time(0) - start) < time)
-		usleep(200);
-	return (0);
-}
-
-long long	ft_get_time(long long input)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-
-		return (((tv.tv_sec * 1000000) + tv.tv_usec)-input);
-}
-long long	ft_get_time_a(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-
-		return (((tv.tv_sec * (u_int64_t)1000) + (tv.tv_usec / 1000)));
-}
-
-int ft_atoi(const char *str)
-{
-	long long ln;
-	size_t n;
-	int sign;
+	long long	ln;
+	size_t		n;
+	int			sign;
 
 	sign = 1;
 	ln = 0;
@@ -54,29 +39,32 @@ int ft_atoi(const char *str)
 	return ((int)ln);
 }
 
-bool check_argv(char **argv,int argc)
+bool	check_argv(char **argv, int argc)
 {
-	if (ft_atoi(argv[1]) <= 0 || ft_atoi(argv[2]) < 0 || ft_atoi(argv[3]) < 0 || ft_atoi(argv[4]) < 0)
-		return false;
-	else if(argc == 6)
+	if (ft_atoi(argv[1]) <= 0 || ft_atoi(argv[2]) < 0
+		|| ft_atoi(argv[3]) < 0 || ft_atoi(argv[4]) < 0)
 	{
-		if(ft_atoi(argv[5]) <= 0)
-		return false;
+		return (false);
 	}
-	return true;
+	else if (argc == 6)
+	{
+		if (ft_atoi(argv[5]) <= 0)
+			return (false);
+	}
+	return (true);
 }
 
-bool check_input_format(int argc, char **argv)
+bool	check_input_format(int argc, char **argv)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	j;
+
 	i = 1;
 	if (!(argc == 5 || argc == 6))
 	{
 		printf(ERROR_ARG);
 		return (false);
 	}
-
 	while (argv[i])
 	{
 		j = 0;
@@ -88,10 +76,10 @@ bool check_input_format(int argc, char **argv)
 		}
 		i++;
 	}
-	return (check_argv(argv,argc));
+	return (check_argv(argv, argc));
 }
 
-void alloc_input_env(t_env *env, int argc, char **argv)
+void	alloc_input_env(t_env *env, int argc, char **argv)
 {
 	env->number_of_philosophers = ft_atoi(argv[1]);
 	env->time_to_die = ft_atoi(argv[2]);
