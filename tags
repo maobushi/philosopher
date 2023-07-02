@@ -1,0 +1,19 @@
+Mmain	srcs/main.c	/^int main(int argc, char **argv)$/
+alloc_input_env	srcs/check_input.c	/^void alloc_input_env(t_env *env, int argc, char **/
+check_argv	srcs/check_input.c	/^bool check_argv(char **argv)$/
+check_input_format	srcs/check_input.c	/^bool check_input_format(int argc, char **argv)$/
+drop_fork	srcs/main.c	/^void drop_fork(t_philo *input)$/
+ft_atoi	srcs/check_input.c	/^int ft_atoi(const char *str)$/
+ft_get_time	srcs/check_input.c	/^long long	ft_get_time(long long input)$/
+ft_get_time_a	srcs/check_input.c	/^long long	ft_get_time_a(void)$/
+ft_usleep	srcs/check_input.c	/^int	ft_usleep(useconds_t time)$/
+get_fork	srcs/main.c	/^void get_fork(t_philo *input)$/
+init_alloc	srcs/main.c	/^int init_alloc(t_env *env)$/
+init_thread	srcs/main.c	/^int init_thread(t_env *env)$/
+monitor	srcs/main.c	/^void *monitor(void *arg)$/
+one_case	srcs/main.c	/^void one_case(t_philo *input)$/
+philo_eat	srcs/main.c	/^void philo_eat(t_philo * input)$/
+philo_sleep	srcs/main.c	/^void philo_sleep(t_philo * input)$/
+philo_think	srcs/main.c	/^void philo_think(t_philo * input)$/
+routine	srcs/main.c	/^void *routine(void *arg)$/
+waiter	srcs/main.c	/^void *waiter(void * arg)$/

@@ -18,7 +18,9 @@ typedef struct{
 	long long			ideal_death_time;
 	long long			start_time_meal;
 	long long			end_time_meal;
+	int					is_finished_flag;
 	pthread_t    		 monitor_id;
+	pthread_t   waiter_id;
 	pthread_mutex_t		*right_fork;
 	pthread_mutex_t		*left_fork;
 	pthread_mutex_t 	plock;
@@ -55,6 +57,7 @@ bool check_argv(char **argv);
 bool check_input_format(int argc, char **argv);
 void end_philosophers(t_env *env);
 long long ft_get_time(long long input);
-int	ft_usleep(useconds_t time);
+long long ft_get_time_a(void);
+int	ft_usleep(long long time);
 void alloc_input_env(t_env *env, int argc, char **argv);
 #endif
